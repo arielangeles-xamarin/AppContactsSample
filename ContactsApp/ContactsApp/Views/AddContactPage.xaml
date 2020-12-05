@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ContactsApp.Views.AddContactPage">
+    <ContentPage.ToolbarItems >
+        <ToolbarItem Name="SaveContacts"  Order="Primary" Text="Save" IconImageSource="save.png" Priority="0" Command="{Binding SaveContatcsCommand}" />
+        <ToolbarItem Name="MoreOptions"  Order="Secondary"  IconImageSource="more.png"  Priority="1"  />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid Padding="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <!-- GRID DEFINITIONS -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Source="{Binding DefaultImage}"
+                   HorizontalOptions="Center" Aspect="AspectFit"
+                   Grid.Row="0" Grid.Column="0"/>
+
+                <Entry TextColor="Black" Placeholder="Name" Text="{Binding Contact.Name}" PlaceholderColor="DarkGray" Grid.Row="1" Grid.Column="0" />
+                <Entry TextColor="Black" Placeholder="Phone Number" Text="{Binding Contact.PhoneNumber}" PlaceholderColor="DarkGray" Grid.Row="2" Grid.Column="0" />
+                <Entry TextColor="Black" Placeholder="Email" Text="{Binding Contact.Email}" PlaceholderColor="DarkGray"  Grid.Row="3" Grid.Column="0" />
+                <Entry TextColor="Black" Placeholder="Address" Text="{Binding Contact.Address}" PlaceholderColor="DarkGray" Grid.Row="4" Grid.Column="0" />
+                <Button BackgroundColor="DarkRed" Text="Add contact" Grid.Row="5" Grid.Column="0" Command="{Binding AddCommand}"/>
+
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
