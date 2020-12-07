@@ -3,12 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ContactsApp.Views.AddContactPage"
              xmlns:models="clr-namespace:ContactsApp.Models"
-             BackgroundColor="White" Title="{Binding AddContactTitle}">
-
+             BackgroundColor="White" Title="{Binding ContactTitle}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveContactCommand}"/>
+    </ContentPage.ToolbarItems>
+    
     <ScrollView>
         <StackLayout Padding="12" 
                      BindingContext="{Binding Contact}">
-         
+
             <Grid x:DataType="models:Contact">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -114,8 +118,7 @@
                     Style="{DynamicResource EntryStyle}"
                     Text="{Binding Email}" />
             </Grid>
-            <Button Style="{StaticResource ButtonStyle}" Text="Save contact" Command="{Binding saveContactCommand}" HorizontalOptions="FillAndExpand"/>
-
         </StackLayout>
+        
     </ScrollView>
 </ContentPage>
