@@ -2,63 +2,47 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace ContactsApp.ViewModels
 {
-	public class AddContactViewModel : BaseViewModel
-	{
-		public ICommand AddCommand { get; }
-		public string DefaultImage => "DefaultImage.png";
+    public class AddContactViewModel : INotifyPropertyChanged
+    {
+        public string AddContactTitle => "Add Contact";
 
-		private Contact contact;
-		public Contact NewContact
-		{
-			get
-			{
-				return contact;
-			}
-			set
-			{
-				if (!(value is null)) {
-					contact = value;
-				}
+        public Contact Contact { get; set; }
+        public ObservableCollection<Contact> Contacts { get; set; }
 
-			}
-		}
+        public ICommand SaveContactCommand { get; set; }
 
-		public AddContactViewModel(ObservableCollection<Contact> contacts)
-		{
-			NewContact = new Contact() {
-				ProfilePicture = DefaultImage
-			};
+        public AddContactViewModel(ObservableCollection<Contact> contacts, Contact contact)
+        {           
+            Contact = new Contact();
+            
+            SaveContactCommand = new Command(async () =>
+            {
 
-			AddCommand = new Command(async () =>
-			{
-				contacts.Add(new Contact {
-					Name = NewContact.Name,
-					PhoneNumber = NewContact.PhoneNumber,
-					Email = NewContact.Email,
-					Address = NewContact.Address,
-					ProfilePicture = NewContact.ProfilePicture
-				});
+                contacts.Add(new Contact(
+                    Contact.FirstName,
+                    Contact.LastName,
+                    Contact.Phone,
+                    Contact.Email
+                ));
 
-				await Application.Current.MainPage.Navigation.PopAsync();
-			});
-		}
+                await Application.Current.MainPage.DisplayAlert("New Contact Added",
+                    $"Contact {Contact.FullName} has been successfully added", "Ok");
 
-		public AddContactViewModel(ObservableCollection<Contact> contacts, Contact contactSelected)
-		{
-			NewContact = contactSelected;
-			AddCommand = new Command(async () => {
-				contacts.Add(contactSelected);
-				await App.Current.MainPage.Navigation.PopAsync();
-			});
-		}
-		
+                await Application.Current.MainPage.Navigation.PopAsync();
+            });
+        }
 
-	}
+        public AddContactViewModel()
+        {
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
 }

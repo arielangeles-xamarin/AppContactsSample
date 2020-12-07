@@ -1,15 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
-namespace ContactsApp.Models
+namespace ContactsApp.Models 
 {
-    public class Contact
+    public class Contact : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string PhoneNumber { get; set; }
+        public Contact()
+        {
+
+        }
+        public Contact(string firstName, string lastName, string phone, string email)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Email = email;
+        }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
-        public string Address { get; set; }
-        public string ProfilePicture { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

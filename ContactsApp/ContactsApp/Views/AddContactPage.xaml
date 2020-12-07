@@ -1,39 +1,121 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ContactsApp.Views.AddContactPage">
-    <ContentPage.ToolbarItems >
-        <ToolbarItem Name="SaveContacts"  Order="Primary" Text="Save" IconImageSource="save.png" Priority="0" Command="{Binding SaveContatcsCommand}" />
-        <ToolbarItem Name="MoreOptions"  Order="Secondary"  IconImageSource="more.png"  Priority="1"  />
-    </ContentPage.ToolbarItems>
-    <ContentPage.Content>
-        <ScrollView>
-            <Grid Padding="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                <!-- GRID DEFINITIONS -->
+             x:Class="ContactsApp.Views.AddContactPage"
+             xmlns:models="clr-namespace:ContactsApp.Models"
+             BackgroundColor="White" Title="{Binding AddContactTitle}">
+
+    <ScrollView>
+        <StackLayout Padding="12" 
+                     BindingContext="{Binding Contact}">
+         
+            <Grid x:DataType="models:Contact">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Style="{DynamicResource LargeLabelStyle}"
+                    Text="Name" />
+
+                <Image
+                    Grid.Row="1"
+                    HeightRequest="36"
+                    VerticalOptions="Center"
+                    WidthRequest="36">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="{DynamicResource MaterialFontFamily}"
+                            Glyph="{StaticResource IconPerson}"
+                            Size="24"
+                            Color="{DynamicResource SystemGray}" />
+                    </Image.Source>
+                </Image>
+
+                <Entry
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Keyboard="Text"
+                    Placeholder="First name"
+                    Style="{DynamicResource EntryStyle}"
+                    Text="{Binding FirstName}" />
+                <Entry
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Keyboard="Text"
+                    Placeholder="Last name"
+                    Style="{DynamicResource EntryStyle}"
+                    Text="{Binding LastName}" />
+            </Grid>
+            <Grid x:DataType="models:Contact">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Style="{DynamicResource LargeLabelStyle}"
+                    Text="Contact" />
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Image
+                    Grid.Row="1"
+                    HeightRequest="36"
+                    VerticalOptions="Center"
+                    WidthRequest="36">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="{DynamicResource MaterialFontFamily}"
+                            Glyph="{StaticResource IconPhone}"
+                            Size="24"
+                            Color="{DynamicResource SystemGray}" />
+                    </Image.Source>
+                </Image>
 
-                <Image Source="{Binding DefaultImage}"
-                   HorizontalOptions="Center" Aspect="AspectFit"
-                   Grid.Row="0" Grid.Column="0"/>
 
-                <Entry TextColor="Black" Placeholder="Name" Text="{Binding Contact.Name}" PlaceholderColor="DarkGray" Grid.Row="1" Grid.Column="0" />
-                <Entry TextColor="Black" Placeholder="Phone Number" Text="{Binding Contact.PhoneNumber}" PlaceholderColor="DarkGray" Grid.Row="2" Grid.Column="0" />
-                <Entry TextColor="Black" Placeholder="Email" Text="{Binding Contact.Email}" PlaceholderColor="DarkGray"  Grid.Row="3" Grid.Column="0" />
-                <Entry TextColor="Black" Placeholder="Address" Text="{Binding Contact.Address}" PlaceholderColor="DarkGray" Grid.Row="4" Grid.Column="0" />
-                <Button BackgroundColor="DarkRed" Text="Add contact" Grid.Row="5" Grid.Column="0" Command="{Binding AddCommand}"/>
+                <Entry
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Keyboard="Telephone"
+                    Placeholder="Phone number"
+                    Style="{DynamicResource EntryStyle}"
+                    Text="{Binding Phone}" />
 
+                <Image
+                    Grid.Row="2"
+                    HeightRequest="36"
+                    VerticalOptions="Center"
+                    WidthRequest="36">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="{DynamicResource MaterialFontFamily}"
+                            Glyph="{StaticResource IconEmail}"
+                            Size="24"
+                            Color="{DynamicResource SystemGray}" />
+                    </Image.Source>
+                </Image>
+                <Entry
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Keyboard="Email"
+                    Placeholder="Email address"
+                    Style="{DynamicResource EntryStyle}"
+                    Text="{Binding Email}" />
             </Grid>
-        </ScrollView>
-    </ContentPage.Content>
+            <Button Style="{StaticResource ButtonStyle}" Text="Save contact" Command="{Binding saveContactCommand}" HorizontalOptions="FillAndExpand"/>
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
