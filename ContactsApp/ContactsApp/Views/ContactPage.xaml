@@ -2,37 +2,50 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ContactsApp.Views.ContactPage"
-             Title="{Binding ContactTitle}"
-             x:Name="ContactList">
+             xmlns:viewModels="clr-namespace:ContactsApp.ViewModels"
+             x:Name="contactPage" Title="{Binding ContactTitle}"
+             BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <viewModels:ContactViewModel/>
+    </ContentPage.BindingContext>
+    
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding AddText}" Command="{Binding AddCommand}"/>
+        <ToolbarItem Text="{Binding AddText}" Command="{Binding AddContactCommand}"/>
     </ContentPage.ToolbarItems>
-    <ContentPage.Content>
-        <ListView x:Name="contacts" ItemsSource="{Binding Contacts}" SelectedItem="{Binding ContactSelected}" HasUnevenRows="True" Margin="10">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+    
+    
+        <ListView x:Name="contacts" 
+                  ItemsSource="{Binding Contacts}" 
+                  SelectedItem="{Binding ContactSelected}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-
                         <ViewCell.ContextActions>
                             <MenuItem Text="Edit"
                                       IconImageSource="edit.png"
-                                      Command="{Binding Source={x:Reference ContactList}, Path=BindingContext.EditCommand}"
+                                      Command="{Binding Source={x:Reference contactPage}, Path=BindingContext.EditContactCommand}"
                                       CommandParameter="{Binding .}"/>
                             <MenuItem Text="Delete"
-                                    Command="{Binding Source={x:Reference ContactList}, Path=BindingContext.RemoveCommand}"
+                                    Command="{Binding Source={x:Reference contactPage}, Path=BindingContext.DeleteContactCommand}"
                                     CommandParameter="{Binding .}" IsDestructive="True"/>
                         </ViewCell.ContextActions>
-                        
+
                         <StackLayout Padding="10" Orientation="Horizontal">
-                            <Image Source="{Binding Image}"
+                            <Image Source="{Binding Source={x:Reference contactPage}, Path=BindingContext.DefaultImage}"
                                    VerticalOptions="Center"
                                    x:Name="image"
                                    Aspect="AspectFit"
                                    HeightRequest="60"/>
                             <StackLayout VerticalOptions="Center">
-                                <Label Text="{Binding Name}"
+                                <Label Text="{Binding FullName}"
                                        FontAttributes="Bold"/>
-                                <Label Text="{Binding PhoneNumber}"/>
+                                <Label Text="{Binding Phone}"/>
                                 <Label Text="{Binding Email}"/>
                             </StackLayout>
                         </StackLayout>
@@ -40,5 +53,34 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </ContentPage.Content>
+
+        <Frame
+            Grid.RowSpan="2"
+            Margin="8"
+            Padding="0"
+            CornerRadius="28"
+            HasShadow="True"
+            HeightRequest="56"
+            HorizontalOptions="End"
+            Style="{DynamicResource FrameStyle}"
+            BackgroundColor="LightSlateGray"
+            VerticalOptions="End"
+            WidthRequest="56">
+            <ImageButton
+                Padding="12"
+                Command="{Binding NewCommand}"
+                HorizontalOptions="FillAndExpand"
+                Style="{DynamicResource FloatingActionButtonStyle}"
+                BackgroundColor="DarkRed"
+                VerticalOptions="FillAndExpand">
+                <ImageButton.Source>
+                    <FontImageSource
+                        FontFamily="{DynamicResource MaterialFontFamily}"
+                        Glyph="{StaticResource IconAdd}"
+                        Color="White" />
+                </ImageButton.Source>
+            </ImageButton>
+        </Frame>
+        
+    </Grid>
 </ContentPage>
