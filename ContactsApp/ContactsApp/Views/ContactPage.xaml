@@ -22,7 +22,7 @@
         <ListView x:Name="contacts"
                   ItemsSource="{Binding ContactList}" 
                   SelectedItem="{Binding ContactSelected}"
-                  CachingStrategy="RecycleElement">
+                  IsPullToRefreshEnabled="True">
             <ListView.Header>
                 <Frame
                     Margin="5"
