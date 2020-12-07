@@ -15,14 +15,28 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-    
-    
-        <ListView x:Name="contacts" 
-                  ItemsSource="{Binding Contacts}" 
-                  SelectedItem="{Binding ContactSelected}">
+
+        <ListView x:Name="contacts"
+                  ItemsSource="{Binding ContactList}" 
+                  SelectedItem="{Binding ContactSelected}"
+                  IsPullToRefreshEnabled="True">
+            <ListView.Header>
+                <Frame
+                    Margin="5"
+                    Padding="0"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                    Style="{DynamicResource FrameStyle}">
+                    <SearchBar
+                    BackgroundColor="{DynamicResource SystemGray4}"
+                    CancelButtonColor="{DynamicResource SystemGray}"
+                    Placeholder="Search Contacts"
+                    PlaceholderColor="{DynamicResource SystemGray2}"
+                    TextColor="{DynamicResource SystemGray}" />
+                </Frame>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -44,9 +58,9 @@
                                    HeightRequest="60"/>
                             <StackLayout VerticalOptions="Center">
                                 <Label Text="{Binding FullName}"
-                                       FontAttributes="Bold"/>
-                                <Label Text="{Binding Phone}"/>
-                                <Label Text="{Binding Email}"/>
+                                       FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="{Binding Phone}" TextColor="Black"/>
+                                <Label Text="{Binding Email}" TextColor="Black"/>
                             </StackLayout>
                         </StackLayout>
                     </ViewCell>
@@ -55,7 +69,7 @@
         </ListView>
 
         <Frame
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             Margin="8"
             Padding="0"
             CornerRadius="28"

@@ -69,8 +69,12 @@
                 <Setter Property="TextColor" Value="{DynamicResource SystemGray}" />
                 <Setter Property="PlaceholderColor" Value="{DynamicResource AccentColor}"/>
             </Style>
-            
-            
+
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="BackgroundColor" Value="DarkRed"/>
+                <Setter Property="TextColor" Value="White"/>
+            </Style>
 
             <Style TargetType="ListView">
                 <Setter Property="HasUnevenRows" Value="True"/>

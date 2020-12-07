@@ -17,12 +17,13 @@ namespace ContactsApp.ViewModels
     {
         public string ContactTitle => "Contacts";
 
-        Contact Contact { get; set; }
         public ICommand NewCommand { get; set; }
         public ICommand DeleteContactCommand { get; set; }
         public ICommand EditContactCommand { get; set; }
 
         public ObservableCollection<Contact> Contacts { get; set; }
+
+        public IList<Contact> ContactList { get; set; }
 
         private Contact contactSelected;
         public Contact ContactSelected
@@ -40,28 +41,29 @@ namespace ContactsApp.ViewModels
 
         public ContactViewModel()
         {
-            Contacts = new ObservableCollection<Contact>();
-
             NewCommand = new Command(async () => await ExecuteNewCommand());
-            DeleteContactCommand = new Command<Contact>(async (Contact contact) => await RemoveContact(contact));
-            EditContactCommand = new Command<Contact>(async (Contact contact) => await EditContact(contact));
+            DeleteContactCommand = new Command<Contact>(async (Contact contact) => await RemoveContact());
+            EditContactCommand = new Command<Contact>(async (Contact contact) => await EditContact());
+
+            Task.Run(async () => { ContactList = await App.Database.GetContactsAsync(); }).Wait();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         private async Task ExecuteNewCommand() => await Application.Current.MainPage.Navigation.PushAsync(new AddContactPage());
 
-        private async Task RemoveContact(Contact contact)
+        private async Task RemoveContact()
         {
-            Contacts.Remove(contact);
+            await App.Database.DeleteContactAsync(ContactSelected);
             await Application.Current.MainPage.DisplayAlert("Deleted",
                 $"Contact: {contactSelected.FullName} has been deleted successfully", "OK");
+
         }
 
-        private async Task EditContact(Contact contact)
+        private async Task EditContact()
         {
-            Contacts.Remove(contactSelected);
-            await Application.Current.MainPage.Navigation.PushAsync(new AddContactPage(Contacts, contact));
+            await App.Database.DeleteContactAsync(ContactSelected);
+            await Application.Current.MainPage.Navigation.PushAsync(new AddContactPage(ContactSelected));
         }
 
 
@@ -82,7 +84,7 @@ namespace ContactsApp.ViewModels
                     MakePhoneCall(contactSelected.Phone);
                     break;
                 case Edit:
-                    await EditContact(contactSelected);
+                    await EditContact();
                     break;
                 case Detail:
                     await DisplayDetail(contactSelected);

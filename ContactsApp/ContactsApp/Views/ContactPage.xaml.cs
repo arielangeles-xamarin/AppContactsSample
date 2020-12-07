@@ -16,5 +16,12 @@ namespace ContactsApp.Views
         {
             InitializeComponent();
         }
+
+       // protected override async void OnAppearing()
+       // {
+        //    base.OnAppearing();
+        //
+         //   contacts.ItemsSource = await App.Database.GetContactsAsync();
+        //}
     }
 }

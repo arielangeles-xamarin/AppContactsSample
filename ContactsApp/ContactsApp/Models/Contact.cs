@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using SQLite;
 
 namespace ContactsApp.Models 
 {
@@ -11,14 +12,9 @@ namespace ContactsApp.Models
         {
 
         }
-        public Contact(string firstName, string lastName, string phone, string email)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Phone = phone;
-            Email = email;
-        }
 
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
